@@ -7,7 +7,7 @@ const app = express();
 const path = require('path');
 
 const indexRouter = require('./routes/index');
-const { MemoryStore } = require('express-session');
+// const { MemoryStore } = require('express-session');
 const TreeNode = require('./models/TreeNode');
 
 // Settings
@@ -16,16 +16,16 @@ app.set('port', process.env.PORT || 3000);
 // Static files
 app.use(express.static(path.join(__dirname,'public')));
 
-app.use(require('./middlewares/session'));
+// app.use(require('./middlewares/session'));
 
 // Middleware para mensajes de error
-app.use((req, res, next) => {
-    if (req.session) {
-        res.locals.messages = req.session.messages;
-        req.session.messages = {};
-    }
-    next();
-});
+// app.use((req, res, next) => {
+//     if (req.session) {
+//         res.locals.messages = req.session.messages;
+//         req.session.messages = {};
+//     }
+//     next();
+// });
 
 // React 
 app.get('*', function(req, res) {
