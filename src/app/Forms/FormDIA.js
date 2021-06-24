@@ -23,11 +23,12 @@ let preg4 = new TreeNode('form_pregunta4',
                         '¿Se verá afectada algún área colocada bajo protección oficial?');
 
 let preg5 = new TreeNode('form_pregunta5',
-                        'Ingresar Pertinencia (analizar posible DIA)');
+                        'Gracias por responder, oprima el botón Enviar Evaluación y recibirá el resultado en su correo electrónico.'); //Ingresar Pertinencia (analizar posible DIA)
+                        
 
 
 let preg6 = new TreeNode('form_pregunta6',
-                          'Probablemente nada');
+                          'Gracias por responder, oprima el botón Enviar Evaluación y recibirá el resultado en su correo electrónico.'); // Probablemente nada
 root.set_show(true);
 
 root.set_right(preg1);
@@ -132,7 +133,9 @@ class FormDIA extends Component {
 
         const renderBackButton = () => {
             if (questions_number>1) {
-              return <a className="waves-effect waves-light btn-small" onClick={(e)=>this.backQuestion(e)}><i className="material-icons left">arrow_back</i>Pregunta anterior</a>
+              return <div className="right-align" >
+                        <a href="javascript:return false;" onClick={(e)=>this.backQuestion(e)} >Pregunta anterior</a>
+                    </div>
             } 
           }
         const renderQuestion = () => {        
@@ -140,9 +143,9 @@ class FormDIA extends Component {
             if(question.btn) {
             return (
                     <div className="animate__animated animate__fadeInRight">
-                        <p>{ question.question }</p>
-                        <button className="btn btn-small green lighten-2" onClick={(e)=>this.nextQuestion(e, question, 1)}>Sí</button> 
-                        <button className="btn btn-small red accent-2" onClick={(e)=>this.nextQuestion(e, question, 0)}>No</button>
+                        <p>{this.state.questions.length} .- { question.question }</p>
+                        <button className="btn btn-small col s12 m12 green lighten-2" onClick={(e)=>this.nextQuestion(e, question, 1)}>Sí</button> <br />
+                        <button className="btn btn-small col s12 md12 red accent-2" onClick={(e)=>this.nextQuestion(e, question, 0)}>No</button>
                     </div>
                     )
 
@@ -161,19 +164,19 @@ class FormDIA extends Component {
 
         const renderSubmitButton = () => {
             if(question.left === null && question.right === null) {
-                return <div><br /><a className="waves-effect waves-light btn-large col s12 m12" ><i className="material-icons right">send</i>Enviar solicitud</a></div>
+                return <div><br /><a className="waves-effect waves-light btn-large col s12 m12" ><i className="material-icons right">send</i>Enviar Evaluación</a></div>
             }
         }
 
 
-        let questions = this.state.questions
+        let questions = this.state.questions.slice(0,this.state.questions.length - 1)
 
         const renderList = () => {
             return (
             <ul className="collection">
                 {   
-                    questions.map(question => {
-                        return <li className="collection-item">{question.question} : {question.answer}</li>
+                    questions.map( (question, index) => {
+                        return <li className="collection-item">{index+1} .- {question.question} : {question.answer}</li>
                     })
                 }
              </ul>
@@ -190,7 +193,7 @@ class FormDIA extends Component {
                             <div className="row">
                                 <div className="input-field col s12 m12">
                                     <label htmlFor="mobile">Nombre y Apellidos</label>
-                                    <input name="name" onChange={this.handleChange} type="text" placeholder="" />
+                                    <input name="name" placeholder="" onChange={this.handleChange} type="text" />
                                 </div>
                             </div>
 
@@ -207,11 +210,11 @@ class FormDIA extends Component {
                             </div>
                             <div className="row">
                                 <div className="input-field col s6">
-                                    <input placeholder="+569 1234 1234" onChange={this.handleChange} name="mobile" type="text" className="validate" />
+                                    <input placeholder="+569 1234 1234" onChange={this.handleChange} name="mobile" type="text"  />
                                     <label htmlFor="mobile">Teléfono</label>
                                 </div>
                                 <div className="input-field col s6">
-                                    <input name="email" type="text" onChange={this.handleChange} className="validate" />
+                                    <input name="email" type="text" placeholder="sucorreo@empresa.cl" onChange={this.handleChange}  />
                                     <label htmlFor="email">E-mail</label>
                                 </div>
                             </div>
@@ -222,7 +225,7 @@ class FormDIA extends Component {
                             
                             {renderBackButton()}
                             
-                            {/* {renderList()} */}
+                            {renderList()}
                             {renderSubmitButton()}
                         </form>
                     </div>
